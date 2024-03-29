@@ -1,0 +1,12 @@
+{
+  "trailingComma": "all",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "overrides": [
+    {
+      "files": ["*.html", "*.htm"],
+      "options": {
+        "trailingComma": "es5"
+      }
+    }
+  ]
+}
