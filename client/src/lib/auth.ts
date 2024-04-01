@@ -48,13 +48,15 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (response.status === 200) {
+            console.log(response.data.user.role);
+
             const user: DefaultUser = {
-              id: response.data.id,
+              id: response.data.user.id,
               email: credentials.email,
-              createdAt: response.data.createdAt,
-              updatedAt: response.data.udpatedAt,
               accessToken: response.data.token,
+              role: response.data.user.role,
             };
+
             return Promise.resolve(user as DefaultUser);
           } else {
             return null;
@@ -68,13 +70,15 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.data = user;
+        token.id = user.id as number 
+        token.role = user.role
       }
       return token;
     },
     session: async ({ session, token }) => {
-      if (token.data) {
-        session.user = token.data;
+      if (session?.user) {
+        session.user.id = token.id,
+        session.user.role = token.role
       }
       return session;
     },
